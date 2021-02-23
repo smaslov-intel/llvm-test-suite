@@ -27,15 +27,15 @@ int main() {
   // Create native Level-Zero context.
   // It then will be owned/destroyed by SYCL RT.
   ze_context_handle_t ZeContextInterop{};
-  ze_context_desc_t ZeContextDesc =
-      {ZE_STRUCTURE_TYPE_CONTEXT_DESC, nullptr, 0};
+  ze_context_desc_t ZeContextDesc = {ZE_STRUCTURE_TYPE_CONTEXT_DESC, nullptr,
+                                     0};
   zeContextCreate(ZePlatform, &ZeContextDesc, &ZeContextInterop);
 
   // Re-create SYCL objects from native Level Zero handles
   auto PlatformInterop = level_zero::make<platform>(ZePlatform);
   auto DeviceInterop = level_zero::make<device>(PlatformInterop, ZeDevice);
-  auto ContextInterop =
-      level_zero::make<context>(PlatformInterop.get_devices(), ZeContextInterop);
+  auto ContextInterop = level_zero::make<context>(PlatformInterop.get_devices(),
+                                                  ZeContextInterop);
   auto QueueInterop = level_zero::make<queue>(ContextInterop, ZeQueue);
 
   // Check native handles
